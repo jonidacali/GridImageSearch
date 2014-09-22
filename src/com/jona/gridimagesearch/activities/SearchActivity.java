@@ -1,6 +1,7 @@
 package com.jona.gridimagesearch.activities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -8,7 +9,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.jona.gridimagesearch.R;
 import com.jona.gridimagesearch.adapters.EndlessScrollListener;
@@ -47,6 +54,7 @@ public class SearchActivity extends Activity{
 		filterOptions.size = "";
 		setupViews();
 		
+		
 		//Create resource for the list
 		imageResults = new ArrayList<ImageResult>();
 		//Attach data source to an adaptor
@@ -61,7 +69,8 @@ public class SearchActivity extends Activity{
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to your AdapterView
 		        // customLoadMoreDataFromApi(page); 
-                customLoadMoreDataFromApi(totalItemsCount); 
+                
+		    	customLoadMoreDataFromApi(totalItemsCount); 
 		    }
     	});
 	}
@@ -74,12 +83,14 @@ public class SearchActivity extends Activity{
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// launch image display activity activity
 				Intent i = new Intent(SearchActivity.this, ImageDisplayActivity.class);
-				//Get image result
-				ImageResult result = imageResults.get(position);
-				//Pass image result into intent
-				i.putExtra("result", result);
-				//launch activity
-				startActivity(i);
+				if(isIntentAvailable(SearchActivity.this, i)){
+					//Get image result
+					ImageResult result = imageResults.get(position);
+					//Pass image result into intent
+					i.putExtra("result", result);
+					//launch activity
+					startActivity(i);
+				}
 			}
 		});
 	}	
@@ -91,23 +102,32 @@ public class SearchActivity extends Activity{
 		String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
 		searchUrl = constructSearchUrl(searchUrl);
 		
-		client.get(searchUrl, new JsonHttpResponseHandler(){
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-				try {
-					JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
-					//When changing adapter update the underlying data automatically
-					aImageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+		if(query != null) {
+			if(isConnectivityAvailable(this)){
+				client.get(searchUrl, new JsonHttpResponseHandler(){
+					@Override
+					public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+						try {
+							JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+							//When changing adapter update the underlying data automatically
+							aImageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
+						} catch (JSONException e) {
+							//show error message
+							e.printStackTrace();
+						}
+					}
+					
+					@Override
+					public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+						Log.d("ERROR", responseString.toString());
+					}
+				});	
+			} else {
+				//give message that there is no connectivity
 			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				Log.d("ERROR", responseString.toString());
-			}
-		});	
+		} else {
+			//give message nothing to search for
+		}
 	}
 	
 	// Append more data into the adapter
@@ -122,42 +142,51 @@ public class SearchActivity extends Activity{
     	String searchUrlPaginated = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8&start=" + offset;
     	searchUrlPaginated = constructSearchUrl(searchUrlPaginated);
     	
-    	client.get(searchUrlPaginated, new JsonHttpResponseHandler(){
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-				try {
-					JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
-					//When changing adapter update the underlying data automatically
-					aImageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+    	if(query != null) {
+	    	if(isConnectivityAvailable(this)){
+	
+		    	client.get(searchUrlPaginated, new JsonHttpResponseHandler(){
+					@Override
+					public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+						try {
+							JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+							//When changing adapter update the underlying data automatically
+							aImageResults.addAll(ImageResult.fromJsonArray(imageResultsJson));
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+					
+					@Override
+					public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+						Log.d("ERROR", responseString.toString());
+					}
+		    	});  
+			} else {
+				//show error message for no connectivity
 			}
-			
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-				Log.d("ERROR", responseString.toString());
-			}
-    	});    	
+    	} else {
+    		//message nothing to search for
+    	}
     	
     	aImageResults.notifyDataSetChanged();
     }
     
     public String constructSearchUrl(String baseSearchUrl){
-    	if(filterOptions.color != "" && filterOptions.color != null) {
-    		baseSearchUrl+= "&imgcolor=" + filterOptions.color;
+    	if(filterOptions.color != null && !filterOptions.color.trim().isEmpty()) {
+    		baseSearchUrl += "&imgcolor=" + filterOptions.color.toLowerCase();
     	}
     	
-    	if(filterOptions.size != "" && filterOptions.size != null) {
-    		baseSearchUrl += "&imgsize=" + filterOptions.size;
+    	if(filterOptions.size != null && !filterOptions.size.trim().isEmpty()) {
+    		baseSearchUrl += "&imgsize=" + filterOptions.size.toLowerCase();
     	}
     	
-    	if(filterOptions.type != "" && filterOptions.type != null) {
-    		baseSearchUrl += "&imgtype=" + filterOptions.type;
+    	if(filterOptions.type != null && !filterOptions.type.trim().isEmpty()) {
+    		baseSearchUrl += "&imgtype=" + filterOptions.type.toLowerCase();
     	}
     	
-    	if(filterOptions.searchSite != "" && filterOptions.searchSite != null) {
-    		baseSearchUrl += "&as_sitesearch=" + filterOptions.searchSite;
+    	if(filterOptions.searchSite != null && !filterOptions.searchSite.trim().isEmpty()) {
+    		baseSearchUrl += "&as_sitesearch=" + filterOptions.searchSite.toLowerCase();
     	}
     	return baseSearchUrl;
     	
@@ -186,4 +215,22 @@ public class SearchActivity extends Activity{
 	    inflater.inflate(R.menu.search, menu);
 		return true;
 	}
+	
+	//Method to check if intent is available
+	public static boolean isIntentAvailable(Context ctx, Intent intent) {
+		final PackageManager mgr = ctx.getPackageManager();
+		List<ResolveInfo> list =
+		mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		return list.size() > 0;
+	}
+	
+	public static boolean isConnectivityAvailable(Context ctx){
+		ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		if (activeNetwork != null) {
+			return (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE);
+		} else {
+			return false;
+		}
+	 }
 }

@@ -21,17 +21,18 @@ public class FilterActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_filter);
-		filterOptions = (FilterSelection) getIntent().getSerializableExtra("filterOptions");
-
 		etSearchSite = (EditText) findViewById(R.id.etSearchSite);
 		spSizeFilter = (Spinner) findViewById(R.id.spSize);
 		spColorFilter = (Spinner) findViewById(R.id.spColor);
 		spTypeFilter = (Spinner) findViewById(R.id.spType);
 		
-		setOption(spColorFilter, filterOptions.color);
-		setOption(spSizeFilter, filterOptions.size);
-		setOption(spTypeFilter, filterOptions.type);
-		etSearchSite.setText(filterOptions.searchSite);
+		if(getIntent().getExtras() != null){
+			filterOptions = (FilterSelection) getIntent().getSerializableExtra("filterOptions");
+			setOption(spColorFilter, filterOptions.color);
+			setOption(spSizeFilter, filterOptions.size);
+			setOption(spTypeFilter, filterOptions.type);
+			etSearchSite.setText(filterOptions.searchSite);
+		}
 	}
 	
 	
