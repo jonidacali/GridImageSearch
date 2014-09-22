@@ -1,22 +1,36 @@
-package com.jona.gridimagesearch;
+package com.jona.gridimagesearch.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
-public class SearchActivity extends Activity {
+import com.jona.gridimagesearch.R;
+import com.jona.gridimagesearch.models.ImageResult;
+import com.squareup.picasso.Picasso;
+
+public class ImageDisplayActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_search);
+		setContentView(R.layout.activity_image_display);
+		//Remove action bar
+		getActionBar().hide();
+		//Get the result from the intent
+		ImageResult result = (ImageResult) getIntent().getSerializableExtra("result");
+		//Find imageView 
+		ImageView ivImageResult = (ImageView) findViewById(R.id.ivImageResult);
+		//Load image url in imageView
+		Picasso.with(this).load(result.fullUrl).into(ivImageResult);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.search, menu);
+		getMenuInflater().inflate(R.menu.image_display, menu);
 		return true;
 	}
 
