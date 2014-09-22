@@ -32,6 +32,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jona.gridimagesearch.activities.SearchActivity" />
         </activity>
+        <activity
+            android:name="com.jona.gridimagesearch.activities.FilterActivity"
+            android:label="@string/filter_activity_name" >
+        </activity>
     </application>
 
 </manifest>

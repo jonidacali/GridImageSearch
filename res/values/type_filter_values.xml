@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_filter">
+        <item></item>
+        <item>@string/option_faces</item>
+        <item>@string/option_photo</item>
+        <item>@string/option_clipart</item>
+        <item>@string/option_lineArt</item>
+   </string-array>
+</resources>

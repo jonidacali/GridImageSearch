@@ -1,4 +1,4 @@
-package com.jona.gridimagesearch.adaptors;
+package com.jona.gridimagesearch.adapters;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;

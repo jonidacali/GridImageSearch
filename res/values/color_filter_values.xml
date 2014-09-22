@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="color_filter">
+        <item></item>
+        <item>@string/option_black</item>
+        <item>@string/option_blue</item>
+        <item>@string/option_brown</item>
+        <item>@string/option_green</item>
+        <item>@string/option_grey</item>
+        <item>@string/option_orange</item>
+        <item>@string/option_pink</item>
+        <item>@string/option_red</item>
+        <item>@string/option_white</item>
+        <item>@string/option_yellow</item>
+   </string-array>
+</resources>

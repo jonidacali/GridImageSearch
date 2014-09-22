@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="size_filter">
+        <item></item>
+        <item>@string/option_small</item>
+        <item>@string/option_medium</item>
+        <item>@string/option_large</item>
+        <item>@string/option_xlarge</item>
+   </string-array>
+</resources>

@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Spinner
+        android:id="@+id/spColor"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spSize"
+        android:layout_alignParentRight="true"
+        android:entries="@array/color_filter"
+        android:layout_below="@+id/spSize" />
+
+    <Spinner
+        android:id="@+id/spType"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spColor"
+        android:layout_alignParentRight="true"
+        android:entries="@array/type_filter"
+        android:layout_below="@+id/spColor" />
+
+    <EditText
+        android:id="@+id/etSearchSite"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spType"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/spType"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/tvColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/spColor"
+        android:layout_alignLeft="@+id/tvSize"
+        android:text="@string/filter_color_label"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvSearchSite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSave"
+        android:layout_alignLeft="@id/tvSize"
+        android:text="@string/filter_site_label"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/spType"
+        android:layout_alignLeft="@id/tvSize"
+        android:text="@string/filter_type_label"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spSize"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="17dp"
+        android:layout_toRightOf="@+id/tvColor"
+        android:entries="@array/size_filter" />
+
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/spColor"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="28dp"
+        android:text="@string/filter_size_label"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etSearchSite"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp"
+        android:onClick="onImageSearch"
+        android:text="@string/save_label" />
+
+</RelativeLayout>
