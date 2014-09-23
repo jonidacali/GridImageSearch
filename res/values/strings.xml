@@ -8,6 +8,7 @@
     <string name="filter_activity_name">Filter images</string>
     <string name="search_label">Search</string>
     <string name="save_label">Save</string>
+    <string name="share_label">Share</string>
     <string name="image_title_label">Image title</string>
     <string name="title_activity_image_display">Full Image</string>
     <string name="filter_settings_label">Filter</string>

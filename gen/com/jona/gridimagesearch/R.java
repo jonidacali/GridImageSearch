@@ -917,8 +917,9 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
         public static final int ic_action_search=0x7f020070;
-        public static final int ic_filter_settings=0x7f020071;
-        public static final int ic_launcher=0x7f020072;
+        public static final int ic_action_share=0x7f020071;
+        public static final int ic_filter_settings=0x7f020072;
+        public static final int ic_launcher=0x7f020073;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
@@ -961,7 +962,7 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
         public static final int action_search=0x7f040041;
-        public static final int action_settings=0x7f040040;
+        public static final int action_settings=0x7f040042;
         public static final int btnSave=0x7f040039;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040026;
@@ -972,6 +973,7 @@ containing a value of this type.
         public static final int ivImage=0x7f04003e;
         public static final int ivImageResult=0x7f04003b;
         public static final int listMode=0x7f040002;
+        public static final int menu_item_share=0x7f040040;
         public static final int normal=0x7f040001;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
@@ -1017,9 +1019,8 @@ containing a value of this type.
         public static final int activity_image_display=0x7f030016;
         public static final int activity_search=0x7f030017;
         public static final int item_image_result=0x7f030018;
-        public static final int progress=0x7f030019;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001a;
-        public static final int sherlock_spinner_item=0x7f03001b;
+        public static final int sherlock_spinner_dropdown_item=0x7f030019;
+        public static final int sherlock_spinner_item=0x7f03001a;
     }
     public static final class menu {
         public static final int image_display=0x7f0c0000;
@@ -1068,35 +1069,36 @@ containing a value of this type.
         public static final int action_settings=0x7f09000f;
         public static final int app_name=0x7f09000d;
         public static final int filter_activity_name=0x7f090011;
-        public static final int filter_color_label=0x7f090017;
-        public static final int filter_settings_label=0x7f090016;
-        public static final int filter_site_label=0x7f090019;
-        public static final int filter_size_label=0x7f090018;
-        public static final int filter_type_label=0x7f09001a;
+        public static final int filter_color_label=0x7f090018;
+        public static final int filter_settings_label=0x7f090017;
+        public static final int filter_site_label=0x7f09001a;
+        public static final int filter_size_label=0x7f090019;
+        public static final int filter_type_label=0x7f09001b;
         public static final int hello_world=0x7f09000e;
-        public static final int image_title_label=0x7f090014;
-        public static final int option_black=0x7f09001d;
-        public static final int option_blue=0x7f09001c;
-        public static final int option_brown=0x7f090024;
-        public static final int option_clipart=0x7f09002b;
-        public static final int option_faces=0x7f090029;
-        public static final int option_green=0x7f090023;
-        public static final int option_grey=0x7f090020;
-        public static final int option_large=0x7f090027;
-        public static final int option_lineArt=0x7f09002c;
-        public static final int option_medium=0x7f090026;
-        public static final int option_orange=0x7f090021;
-        public static final int option_photo=0x7f09002a;
-        public static final int option_pink=0x7f090022;
-        public static final int option_red=0x7f09001e;
-        public static final int option_small=0x7f090025;
-        public static final int option_white=0x7f09001f;
-        public static final int option_xlarge=0x7f090028;
-        public static final int option_yellow=0x7f09001b;
+        public static final int image_title_label=0x7f090015;
+        public static final int option_black=0x7f09001e;
+        public static final int option_blue=0x7f09001d;
+        public static final int option_brown=0x7f090025;
+        public static final int option_clipart=0x7f09002c;
+        public static final int option_faces=0x7f09002a;
+        public static final int option_green=0x7f090024;
+        public static final int option_grey=0x7f090021;
+        public static final int option_large=0x7f090028;
+        public static final int option_lineArt=0x7f09002d;
+        public static final int option_medium=0x7f090027;
+        public static final int option_orange=0x7f090022;
+        public static final int option_photo=0x7f09002b;
+        public static final int option_pink=0x7f090023;
+        public static final int option_red=0x7f09001f;
+        public static final int option_small=0x7f090026;
+        public static final int option_white=0x7f090020;
+        public static final int option_xlarge=0x7f090029;
+        public static final int option_yellow=0x7f09001c;
         public static final int save_label=0x7f090013;
         public static final int search_label=0x7f090012;
         public static final int search_prompt=0x7f090010;
-        public static final int title_activity_image_display=0x7f090015;
+        public static final int share_label=0x7f090014;
+        public static final int title_activity_image_display=0x7f090016;
     }
     public static final class style {
         /** 
