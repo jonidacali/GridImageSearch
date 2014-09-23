@@ -8,7 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,16 +16,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.jona.gridimagesearch.R;
 import com.jona.gridimagesearch.adapters.EndlessScrollListener;
 import com.jona.gridimagesearch.adapters.ImageResultsAdapter;
@@ -35,14 +36,17 @@ import com.jona.gridimagesearch.models.ImageResult;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class SearchActivity extends Activity{
+public class SearchActivity extends SherlockFragmentActivity{
 	private EditText etQuery;
 	private GridView gvResults;
 	private ArrayList<ImageResult> imageResults;
 	private ImageResultsAdapter aImageResults;
+	private SearchView searchView;
 	private FilterSelection filterOptions;
 	private final int REQUEST_CODE = 80;
-	
+	private AsyncHttpClient client = new AsyncHttpClient();
+	private String searchQuery = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +57,6 @@ public class SearchActivity extends Activity{
 		filterOptions.type = "";
 		filterOptions.size = "";
 		setupViews();
-		
 		
 		//Create resource for the list
 		imageResults = new ArrayList<ImageResult>();
@@ -76,7 +79,7 @@ public class SearchActivity extends Activity{
 	}
 
 	private void setupViews(){
-		etQuery = (EditText) findViewById(R.id.etQuery);
+//		etQuery = (EditText) findViewById(R.id.etQuery);
 		gvResults = (GridView) findViewById(R.id.gvResults);		
 		gvResults.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -97,12 +100,11 @@ public class SearchActivity extends Activity{
 	
 	public void onImageSearch(View v){
 		imageResults.clear();//clear the result (in case it is a new search)
-		String query = etQuery.getText().toString();
-		AsyncHttpClient client = new AsyncHttpClient();
-		String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8";
+		//String query = etQuery.getText().toString();
+		String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchQuery + "&rsz=8";
 		searchUrl = constructSearchUrl(searchUrl);
 		
-		if(query != null) {
+		if(searchQuery != null) {
 			if(isConnectivityAvailable(this)){
 				client.get(searchUrl, new JsonHttpResponseHandler(){
 					@Override
@@ -134,15 +136,14 @@ public class SearchActivity extends Activity{
     public void customLoadMoreDataFromApi(int offset) {
     	// This method probably sends out a network request and appends new data items to your adapter. 
     	//Get query string
-    	String query = etQuery.getText().toString();
-    	AsyncHttpClient client = new AsyncHttpClient();
+//    	String query = etQuery.getText().toString();
     	
     	// Use the offset value and add it as a parameter to your API request to retrieve paginated data.
     	//Construct search url including offset value
-    	String searchUrlPaginated = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + query + "&rsz=8&start=" + offset;
+    	String searchUrlPaginated = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=" + searchQuery + "&rsz=8&start=" + offset;
     	searchUrlPaginated = constructSearchUrl(searchUrlPaginated);
     	
-    	if(query != null) {
+    	if(searchQuery != null) {
 	    	if(isConnectivityAvailable(this)){
 	
 		    	client.get(searchUrlPaginated, new JsonHttpResponseHandler(){
@@ -211,9 +212,28 @@ public class SearchActivity extends Activity{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.search, menu);
-		return true;
+	    MenuInflater inflater = getSupportMenuInflater();
+	    //inflater.inflate(R.menu.search, menu);
+	    inflater.inflate(R.menu.search, (com.actionbarsherlock.view.Menu) menu);
+	    MenuItem searchItem = menu.findItem(R.id.action_search);
+	    searchView = (SearchView) searchItem.getActionView();
+	    
+	    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				searchQuery	= query;
+				onImageSearch(findViewById(R.layout.activity_search));
+				return false;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+	   return super.onCreateOptionsMenu(menu);
+	    
 	}
 	
 	//Method to check if intent is available

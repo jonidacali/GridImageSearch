@@ -3,31 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.jona.gridimagesearch.activities.SearchActivity" >
-
-    <EditText
-        android:id="@+id/etQuery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/btnSearch"
-        android:layout_toLeftOf="@+id/btnSearch"
-        android:hint="@string/search_prompt"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
-
-    <Button
-        android:id="@+id/btnSearch"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:onClick="onImageSearch"
-        android:text="@string/search_label" />
-
+       
     <GridView
         android:id="@+id/gvResults"
         android:layout_width="match_parent"
