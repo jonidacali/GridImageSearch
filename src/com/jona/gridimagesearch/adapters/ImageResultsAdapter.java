@@ -32,11 +32,9 @@ public class ImageResultsAdapter extends ArrayAdapter<ImageResult> {
 		}
 		//find subviews of root layout
 		ImageView ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
-		TextView tvTitle =  (TextView) convertView.findViewById(R.id.tvTitle);
 		
 		//Clear image from last time
 		ivImage.setImageResource(0);
-		tvTitle.setText(Html.fromHtml(imageInfo.title));
 		
 		//Remotely download image data in the background
 		Picasso.with(getContext()).load(imageInfo.thumbUrl).into(ivImage);

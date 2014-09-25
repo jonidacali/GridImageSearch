@@ -2,23 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#525453">
 
     <ImageView
         android:id="@+id/ivImage"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:scaleType="fitXY"
-        android:adjustViewBounds="true"
-        android:contentDescription="Image Result"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text="@string/image_title_label" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_launcher" />
 
 </LinearLayout>
